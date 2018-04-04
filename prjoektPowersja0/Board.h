@@ -15,6 +15,5 @@ public:
 	~Board();
 	void makeBoard();
 	void writeMove(string x, char sign);
-	
 };
 

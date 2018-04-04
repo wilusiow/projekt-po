@@ -50,6 +50,21 @@ void Board::writeMove(string x, char sign)
 	}
 	
 	this->makeBoard();
+	
+	for (int a = 1; a <= 9; a++)
+	{
+		for (int b = 1; b <= 5; b++)
+		{
+
+			if (((board[a][b] == sign) && (board[a][b + 1] == sign) && (board[a][b + 2] == sign) && (board[a][b + 3] == sign) && (board[a][b + 4] == sign))
+				|| ((board[b][a] == sign) && (board[b+1][a] == sign) && (board[b+2][a] == sign) && (board[b+3][a] == sign) && (board[b+4][a] == sign)))
+			{
+				cout << "Wygral gracz " << sign << endl;
+				system("pause");
+				exit(0);
+			}
+		}
+	}
 }
 
 Move Board::parseMove(string moveStr)
