@@ -65,6 +65,20 @@ void Board::writeMove(string x, char sign)
 			}
 		}
 	}
+	
+	for (int a = 1; a <= 5; a++)
+	{
+		for (int b = 1; b <= 5; b++)
+		{
+			if (((board[a][b] == sign) && (board[a + 1][b + 1] == sign) && (board[a + 2][b + 2] == sign) && (board[a + 3][b + 3] == sign) && (board[a + 4][b + 4] == sign))
+				|| ((board[a][sizeBoard-b]==sign)&&(board[a+1][sizeBoard-1-b]==sign)&&(board[a+2][sizeBoard-2-b]==sign)&&(board[a+3][sizeBoard-3-b]==sign)&&(board[a+4][sizeBoard-4-b]==sign)))
+			{
+				cout << "Wygral gracz " << sign << endl;
+				system("pause");
+				exit(0);
+			}
+		}
+	}
 }
 
 Move Board::parseMove(string moveStr)
