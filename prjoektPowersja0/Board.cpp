@@ -79,7 +79,27 @@ void Board::writeMove(string x, char sign)
 			}
 		}
 	}
+	
+	int fields;
+	fields = (sizeBoard - 1)*(sizeBoard - 1);
+	for (int a = 1; a < sizeBoard; a++)
+	{
+		for (int b = 1; b < sizeBoard; b++)
+		{
+			if (board[a][b] != '-')
+			{
+				fields--;
+				if (fields == 0)
+				{
+					cout << "Remis" << endl;
+					system("pause");
+					exit(0);
+				}
+			}
+		}
+	}
 }
+
 
 Move Board::parseMove(string moveStr)
 {
