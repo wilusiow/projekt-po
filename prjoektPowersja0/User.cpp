@@ -7,5 +7,5 @@ User::~User()
 
 void User::makeMove(string x)
 {
-	this->board->writeMove(x, this->sign);
+	this->board->writeMoveP(x, this->sign);
 }

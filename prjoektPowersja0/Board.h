@@ -3,6 +3,8 @@
 #include<iostream>
 #include<string>
 #include"Move.h"
+#include <cstdlib>
+#include<ctime>
 using namespace std;
 class Board
 {
@@ -14,6 +16,7 @@ public:
 	Board();
 	~Board();
 	void makeBoard();
-	void writeMove(string x, char sign);
+	void writeMoveP(string x, char sign);
+	void writeMoveB(string x, char sign);
 };
 
