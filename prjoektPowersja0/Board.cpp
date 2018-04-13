@@ -98,7 +98,7 @@ void Board::makeBoard()
 		{
 			cout << this->board[i][j] << "\t";
 		}
-		cout << "\n\n";
+		cout << "\n\n\n";
 	}
 }
 
