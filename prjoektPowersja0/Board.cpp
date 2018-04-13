@@ -56,14 +56,14 @@ void Board::writeMoveB(string x, char sign)
 {
 	system("cls");
 	srand((unsigned int)time(NULL));
-	int move_row = toupper(x[0]) - 64 + ((rand() % 3) - 1);
-	int move_column = x[1] - 48 + ((rand() % 3) - 1);
+	int move_row = toupper(x[0]) - 64 + ((rand() % 5) - 2);
+	int move_column = x[1] - 48 + ((rand() % 5) - 2);
 	cout << endl;
 	
-	while ((move_row <= 0) || (move_column <= 0) || (board[move_row][move_column] != '-') || (move_row > (sizeBoard-1)) || (move_column > (sizeBoard-1)))
+	while ((move_row <= 0) || (move_column <= 0) || (move_row > (sizeBoard-1)) || (move_column > (sizeBoard-1)) || (board[move_row][move_column] != '-'))
 	{
-		move_row = toupper(x[0]) - 64 + ((rand() % 3) - 1);
-		move_column = x[1] - 48 + ((rand() % 3) - 1);
+		move_row = toupper(x[0]) - 64 + ((rand() % 5) - 2);
+		move_column = x[1] - 48 + ((rand() % 5) - 2);
 	}
 	this->board[move_row][move_column] = sign;
 	this->makeBoard();
