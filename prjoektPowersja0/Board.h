@@ -18,5 +18,6 @@ public:
 	void makeBoard();
 	void writeMoveP(string x, char sign);
 	void writeMoveB(string x, char sign);
+	void winOrTie(char sign);
 };
 

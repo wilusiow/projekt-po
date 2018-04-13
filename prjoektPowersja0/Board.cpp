@@ -50,54 +50,6 @@ void Board::writeMoveP(string x, char sign)
 	}
 
 	this->makeBoard();
-
-	for (int a = 1; a <= (sizeBoard - 1); a++)
-	{
-		for (int b = 1; b <= (sizeBoard - 5); b++)
-		{
-
-			if (((board[a][b] == sign) && (board[a][b + 1] == sign) && (board[a][b + 2] == sign) && (board[a][b + 3] == sign) && (board[a][b + 4] == sign))
-				|| ((board[b][a] == sign) && (board[b + 1][a] == sign) && (board[b + 2][a] == sign) && (board[b + 3][a] == sign) && (board[b + 4][a] == sign)))
-			{
-				cout << "Wygral gracz " << sign << endl;
-				system("pause");
-				exit(0);
-			}
-		}
-	}
-
-	for (int a = 1; a <= (sizeBoard - 5); a++)
-	{
-		for (int b = 1; b <= (sizeBoard - 5); b++)
-		{
-			if (((board[a][b] == sign) && (board[a + 1][b + 1] == sign) && (board[a + 2][b + 2] == sign) && (board[a + 3][b + 3] == sign) && (board[a + 4][b + 4] == sign))
-				|| ((board[a][sizeBoard - b] == sign) && (board[a + 1][sizeBoard - 1 - b] == sign) && (board[a + 2][sizeBoard - 2 - b] == sign) && (board[a + 3][sizeBoard - 3 - b] == sign) && (board[a + 4][sizeBoard - 4 - b] == sign)))
-			{
-				cout << "Wygral gracz " << sign << endl;
-				system("pause");
-				exit(0);
-			}
-		}
-	}
-
-	int fields;
-	fields = (sizeBoard - 1)*(sizeBoard - 1);
-	for (int a = 1; a < sizeBoard; a++)
-	{
-		for (int b = 1; b < sizeBoard; b++)
-		{
-			if (board[a][b] != '-')
-			{
-				fields--;
-				if (fields == 0)
-				{
-					cout << "Remis" << endl;
-					system("pause");
-					exit(0);
-				}
-			}
-		}
-	}
 }
 
 void Board::writeMoveB(string x, char sign)
@@ -147,6 +99,57 @@ void Board::makeBoard()
 			cout << this->board[i][j] << "\t";
 		}
 		cout << endl;
+	}
+}
+
+void Board::winOrTie(char sign)
+{
+	for (int a = 1; a <= (sizeBoard - 1); a++)
+	{
+		for (int b = 1; b <= (sizeBoard - 5); b++)
+		{
+
+			if (((board[a][b] == sign) && (board[a][b + 1] == sign) && (board[a][b + 2] == sign) && (board[a][b + 3] == sign) && (board[a][b + 4] == sign))
+				|| ((board[b][a] == sign) && (board[b + 1][a] == sign) && (board[b + 2][a] == sign) && (board[b + 3][a] == sign) && (board[b + 4][a] == sign)))
+			{
+				cout << "Wygral gracz " << sign << endl;
+				system("pause");
+				exit(0);
+			}
+		}
+	}
+
+	for (int a = 1; a <= (sizeBoard - 5); a++)
+	{
+		for (int b = 1; b <= (sizeBoard - 5); b++)
+		{
+			if (((board[a][b] == sign) && (board[a + 1][b + 1] == sign) && (board[a + 2][b + 2] == sign) && (board[a + 3][b + 3] == sign) && (board[a + 4][b + 4] == sign))
+				|| ((board[a][sizeBoard - b] == sign) && (board[a + 1][sizeBoard - 1 - b] == sign) && (board[a + 2][sizeBoard - 2 - b] == sign) && (board[a + 3][sizeBoard - 3 - b] == sign) && (board[a + 4][sizeBoard - 4 - b] == sign)))
+			{
+				cout << "Wygral gracz " << sign << endl;
+				system("pause");
+				exit(0);
+			}
+		}
+	}
+
+	int fields;
+	fields = (sizeBoard - 1)*(sizeBoard - 1);
+	for (int a = 1; a < sizeBoard; a++)
+	{
+		for (int b = 1; b < sizeBoard; b++)
+		{
+			if (board[a][b] != '-')
+			{
+				fields--;
+				if (fields == 0)
+				{
+					cout << "Remis" << endl;
+					system("pause");
+					exit(0);
+				}
+			}
+		}
 	}
 }
 
