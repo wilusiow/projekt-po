@@ -7,31 +7,47 @@ Board::Board()
 	this->board = NULL;
 }
 
-Board::Board(int size = 5)
+Board::Board(int size = 17)
 {
 	this->sizeBoard = size;
 	char boardSignJ, boardSignI;
-	boardSignJ = 64;
-	boardSignI = 48;
+	boardSignI = 65;
+	boardSignJ = 49;
 	this->board = new char *[size];
 	for (int i = 0; i < size; i++)
 	{
 		board[i] = new char[size];
 		for (int j = 0; j < size; j++)
 		{
-			if (i == 0)
+			if (i == 1 && j > 1)
 			{
-				this->board[0][j] = boardSignJ;
-				boardSignJ++;
-			}
-			if (j == 0)
-			{
-				this->board[i][0] = boardSignI;
+				this->board[i][j] = boardSignI;
 				boardSignI++;
 			}
-			if (((j != 0) && (i != 0)) || ((j == 0) && (i == 0)))
+			if ((j == 0) && (i > 10))
+			{
+				this->board[i][j] = 49;
+			}
+			if ((j == 0) && (i < 11))
+			{
+				this->board[i][j] = 48;
+			}
+			if (j == 1 && i != 0 && i != 1)
+			{
+				this->board[i][j] = boardSignJ;
+				boardSignJ++;
+				if (boardSignJ == 58)
+				{
+					boardSignJ -= 10;
+				}
+			}
+			if (((j != 0 && j != 1) && (i != 0 && i != 1)) || ((j < 2) && (i == 1)))
 			{
 				this->board[i][j] = '-';
+			}
+			if (i == 0)
+			{
+				this->board[i][j] = ' ';
 			}
 		}
 	}
@@ -56,53 +72,72 @@ void Board::writeMoveB(string x, char sign)
 {
 	system("cls");
 	srand((unsigned int)time(NULL));
-	int move_row = toupper(x[0]) - 64 + ((rand() % 5) - 2);
-	int move_column = x[1] - 48 + ((rand() % 5) - 2);
-	cout << endl;
-	
-	while ((move_row <= 0) || (move_column <= 0) || (move_row > (sizeBoard-1)) || (move_column > (sizeBoard-1)) || (board[move_row][move_column] != '-'))
+	if (isdigit(x[1]) && isdigit(x[2]) && isalpha(x[0]))
 	{
-		move_row = toupper(x[0]) - 64 + ((rand() % 5) - 2);
-		move_column = x[1] - 48 + ((rand() % 5) - 2);
+
+		Move move;
+		move.row = toupper(x[0]) - 63;
+		move.column = x[2] - 47;
+		if (x[1] == '1')
+		{
+			move.column += 10;
+		}
+
+		do
+		{
+			move.row += ((rand() % 3) - 1);
+			move.column += ((rand() % 3) - 1);
+		} while ((move.row <= 1) || (move.column <= 1) || (move.row > (sizeBoard - 1)) || (move.column > (sizeBoard - 1)) || (board[move.column][move.row] != '-'));
+		this->board[move.column][move.row] = sign;
+		this->makeBoard();
 	}
-	this->board[move_row][move_column] = sign;
-	this->makeBoard();
 }
 
 Move Board::parseMove(string moveStr)
 {
 	char column = moveStr[0];
-	char row = moveStr[1];
+	char row10 = moveStr[1];
+	char row1 = moveStr[2];
 
-
-	if (isdigit(row) && isalpha(column))
+	if (isdigit(row10) && isdigit(row1) && isalpha(column))
 	{
 
 		Move move;
-		move.row = toupper(moveStr[0]) - 64;
-		move.column = moveStr[1] - 48;
+		move.row = toupper(moveStr[0]) - 63;
+		move.column = moveStr[2] - 47;
+		if (row10 == '1')
+		{
+			move.column += 10;
+		}
 
 		if (move.row >= sizeBoard || move.column >= sizeBoard || board[move.column][move.row] != '-')
-			throw "Nieprawidlowy ruch. Tracisz kolejke";
+			throw "Nieprawidlowy ruch.";
 
 		return move;
 	}
-	throw  "Nieprawidlowy ruch. Tracisz kolejke";
+	throw  "Nieprawidlowy ruch.";
 }
 
 void Board::makeBoard()
 {
-	for (int i = 0; i < sizeBoard; i++)
+	for (int i = 1; i < sizeBoard; i++)
 	{
 		for (int j = 0; j < sizeBoard; j++)
 		{
-			cout << this->board[i][j] << "\t";
+			if (j == 0)
+			{
+				cout << this->board[i][j] << "";
+			}
+			else
+			{
+				cout << this->board[i][j] << "\t";
+			}
 		}
 		cout << "\n\n\n";
 	}
 }
 
-void Board::winOrTie(char sign)
+bool Board::winOrTie(char sign)
 {
 	for (int a = 1; a <= (sizeBoard - 1); a++)
 	{
@@ -113,8 +148,7 @@ void Board::winOrTie(char sign)
 				|| ((board[b][a] == sign) && (board[b + 1][a] == sign) && (board[b + 2][a] == sign) && (board[b + 3][a] == sign) && (board[b + 4][a] == sign)))
 			{
 				cout << "Wygral gracz " << sign << endl;
-				system("pause");
-				exit(0);
+				return 1;
 			}
 		}
 	}
@@ -127,8 +161,7 @@ void Board::winOrTie(char sign)
 				|| ((board[a][sizeBoard - b] == sign) && (board[a + 1][sizeBoard - 1 - b] == sign) && (board[a + 2][sizeBoard - 2 - b] == sign) && (board[a + 3][sizeBoard - 3 - b] == sign) && (board[a + 4][sizeBoard - 4 - b] == sign)))
 			{
 				cout << "Wygral gracz " << sign << endl;
-				system("pause");
-				exit(0);
+				return 1;
 			}
 		}
 	}
@@ -145,12 +178,12 @@ void Board::winOrTie(char sign)
 				if (fields == 0)
 				{
 					cout << "Remis" << endl;
-					system("pause");
-					exit(0);
+					return 1;
 				}
 			}
 		}
 	}
+	return 0;
 }
 
 Board::~Board()

@@ -3,7 +3,7 @@
 #include<iostream>
 #include<string>
 #include"Move.h"
-#include <cstdlib>
+#include<cstdlib>
 #include<ctime>
 using namespace std;
 class Board
@@ -18,6 +18,6 @@ public:
 	void makeBoard();
 	void writeMoveP(string x, char sign);
 	void writeMoveB(string x, char sign);
-	void winOrTie(char sign);
+	bool winOrTie(char sign);
 };
 
