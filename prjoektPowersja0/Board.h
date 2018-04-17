@@ -5,6 +5,7 @@
 #include"Move.h"
 #include<cstdlib>
 #include<ctime>
+#include <time.h>
 using namespace std;
 class Board
 {

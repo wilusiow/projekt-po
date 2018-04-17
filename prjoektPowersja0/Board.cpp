@@ -71,7 +71,8 @@ void Board::writeMoveP(string x, char sign)
 }
 
 void Board::writeMoveB(string x, char sign)
-{
+{	
+	int move_row, move_column;
 	system("cls");
 	this->makeBoard();
 	srand((unsigned int)time(NULL));
@@ -85,13 +86,33 @@ void Board::writeMoveB(string x, char sign)
 		{
 			move.column += 10;
 		}
-
+		clock_t begin_time = clock();
+		float timeCounter=0.0;
 		do
 		{
-			move.row += ((rand() % 3) - 1);
-			move.column += ((rand() % 3) - 1);
-		} while ((move.row <= 1) || (move.column <= 1) || (move.row > (sizeBoard - 1)) || (move.column > (sizeBoard - 1)) || (board[move.column][move.row] != '-'));
-		this->board[move.column][move.row] = sign;
+			move_row = move.row + ((rand() % 3) - 1);
+			move_column = move.column + ((rand() % 3) - 1);
+			if ((float(clock() - begin_time - timeCounter) / CLOCKS_PER_SEC) > 3)
+			{
+				while ((move_row <= 1) || (move_column <= 1) || (move_row > (sizeBoard - 1)) || (move_column > (sizeBoard - 1)) || (board[move_column][move_row] != '-'))
+				{
+					for (int i = 2; i < sizeBoard; i++)
+					{
+						for (int j = 2; j < sizeBoard; j++)
+						{
+							if (board[i][j] == '-')
+							{
+								move_row = j;
+								move_column = i;
+								break;
+							}
+						}
+						if (board[move_column][move_row] == '-') break;
+					}
+				}
+			}
+		} while ((move_row <= 1) || (move_column <= 1) || (move_row > (sizeBoard - 1)) || (move_column > (sizeBoard - 1)) || (board[move_column][move_row] != '-'));
+		this->board[move_column][move_row] = sign;
 		system("cls");
 		this->makeBoard();
 	}
@@ -144,9 +165,9 @@ void Board::makeBoard()
 
 bool Board::winOrTie(char sign)
 {
-	for (int a = 1; a <= (sizeBoard - 1); a++)
+	for (int a = 2; a <= (sizeBoard - 1); a++)
 	{
-		for (int b = 1; b <= (sizeBoard - 5); b++)
+		for (int b = 2; b <= (sizeBoard - 5); b++)
 		{
 
 			if (((board[a][b] == sign) && (board[a][b + 1] == sign) && (board[a][b + 2] == sign) && (board[a][b + 3] == sign) && (board[a][b + 4] == sign))
@@ -158,9 +179,9 @@ bool Board::winOrTie(char sign)
 		}
 	}
 
-	for (int a = 1; a <= (sizeBoard - 5); a++)
+	for (int a = 2; a <= (sizeBoard - 5); a++)
 	{
-		for (int b = 1; b <= (sizeBoard - 5); b++)
+		for (int b = 2; b <= (sizeBoard - 5); b++)
 		{
 			if (((board[a][b] == sign) && (board[a + 1][b + 1] == sign) && (board[a + 2][b + 2] == sign) && (board[a + 3][b + 3] == sign) && (board[a + 4][b + 4] == sign))
 				|| ((board[a][sizeBoard - b] == sign) && (board[a + 1][sizeBoard - 1 - b] == sign) && (board[a + 2][sizeBoard - 2 - b] == sign) && (board[a + 3][sizeBoard - 3 - b] == sign) && (board[a + 4][sizeBoard - 4 - b] == sign)))
@@ -172,10 +193,10 @@ bool Board::winOrTie(char sign)
 	}
 
 	int fields;
-	fields = (sizeBoard - 1)*(sizeBoard - 1);
-	for (int a = 1; a < sizeBoard; a++)
+	fields = (sizeBoard - 2)*(sizeBoard - 2);
+	for (int a = 2; a < (sizeBoard-1); a++)
 	{
-		for (int b = 1; b < sizeBoard; b++)
+		for (int b = 2; b < (sizeBoard-1); b++)
 		{
 			if (board[a][b] != '-')
 			{
