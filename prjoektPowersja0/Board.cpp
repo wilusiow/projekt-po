@@ -87,12 +87,11 @@ void Board::writeMoveB(string x, char sign)
 			move.column += 10;
 		}
 		clock_t begin_time = clock();
-		float timeCounter=0.0;
 		do
 		{
 			move_row = move.row + ((rand() % 3) - 1);
 			move_column = move.column + ((rand() % 3) - 1);
-			if ((float(clock() - begin_time - timeCounter) / CLOCKS_PER_SEC) > 3)
+			if ((float(clock() - begin_time) / CLOCKS_PER_SEC) > 3)
 			{
 				while ((move_row <= 1) || (move_column <= 1) || (move_row > (sizeBoard - 1)) || (move_column > (sizeBoard - 1)) || (board[move_column][move_row] != '-'))
 				{
