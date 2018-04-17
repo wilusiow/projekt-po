@@ -56,6 +56,7 @@ Board::Board(int size = 17)
 void Board::writeMoveP(string x, char sign)
 {
 	system("cls");
+	this->makeBoard();
 	try {
 		Move move = this->parseMove(x);
 		this->board[move.column][move.row] = sign;
@@ -64,13 +65,15 @@ void Board::writeMoveP(string x, char sign)
 	catch (const char* exception) {
 		cout << exception << endl;
 	}
-
+	Sleep(750);
+	system("cls");
 	this->makeBoard();
 }
 
 void Board::writeMoveB(string x, char sign)
 {
 	system("cls");
+	this->makeBoard();
 	srand((unsigned int)time(NULL));
 	if (isdigit(x[1]) && isdigit(x[2]) && isalpha(x[0]))
 	{
@@ -89,6 +92,7 @@ void Board::writeMoveB(string x, char sign)
 			move.column += ((rand() % 3) - 1);
 		} while ((move.row <= 1) || (move.column <= 1) || (move.row > (sizeBoard - 1)) || (move.column > (sizeBoard - 1)) || (board[move.column][move.row] != '-'));
 		this->board[move.column][move.row] = sign;
+		system("cls");
 		this->makeBoard();
 	}
 }
@@ -111,11 +115,12 @@ Move Board::parseMove(string moveStr)
 		}
 
 		if (move.row >= sizeBoard || move.column >= sizeBoard || board[move.column][move.row] != '-')
-			throw "Nieprawidlowy ruch.";
-
+			throw "Nieprawidlowy ruch. Tracisz kolejke.";
+			
 		return move;
 	}
-	throw  "Nieprawidlowy ruch.";
+
+	throw  "Nieprawidlowy ruch. Tracisz kolejke.";
 }
 
 void Board::makeBoard()
@@ -147,7 +152,7 @@ bool Board::winOrTie(char sign)
 			if (((board[a][b] == sign) && (board[a][b + 1] == sign) && (board[a][b + 2] == sign) && (board[a][b + 3] == sign) && (board[a][b + 4] == sign))
 				|| ((board[b][a] == sign) && (board[b + 1][a] == sign) && (board[b + 2][a] == sign) && (board[b + 3][a] == sign) && (board[b + 4][a] == sign)))
 			{
-				cout << "Wygral gracz " << sign << endl;
+				cout << "Wygral gracz "<< sign << endl;
 				return 1;
 			}
 		}
